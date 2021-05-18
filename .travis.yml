@@ -1,0 +1,32 @@
+language: python
+
+python:
+ - "3.7"
+
+env:
+  global:
+   - HTML_PATH=report
+
+cache: 
+ - directories:
+   - $HOME/.cache/pip
+
+install: 
+ - pip install pandas plotly
+
+script:
+ - mkdir $HTML_PATH
+ - python3 covid19_last14days.py
+ - ls -lR
+
+notifications:
+ email: false
+
+deploy:
+ - provider: pages
+   skip_cleanup: true
+   target_branch : master
+   local_dir : $HTML_PATH
+   repo : gpiantoni/covid19_last14days
+   target_branch : gh-pages
+   github_token : $GITHUB_TOKEN
